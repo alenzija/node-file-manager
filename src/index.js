@@ -23,25 +23,28 @@ const argv = process.argv;
 
 
 user = argv.find((item) => /^--username/.test(item)).replace(/--username=/, '');
-console.log(`Welcome to the File Manager, ${user}!`);
-
-
-
-
-const reverseTransformStream = new Transform({
-  transform (data, encoding, callback) {
-    const reversedData = data.toString();
-    this.push(reversedData);
-    callback();
-  }
+process.on('exit', () => {
+  process.stdout.write(`\nThank you for using File Manager, ${user}, goodbye!
+  `);
 });
+
+process.on('SIGINT', () => {
+  process.exit();
+});
+
+process.stdout.write(`Welcome to the File Manager, ${user}!`);
 
 printCommands();
 process.stdout.write('Enter your command\n');
 
-process.stdin.pipe(reverseTransformStream).on('data', async (data) => {
+
+
+process.stdin.on('data', async (data) => {
   const stringData = data.toString().trim();
   const [command, ...args] = stringData.split(' ');
+  if (stringData.split(' ').includes('exit')) {
+    process.exit()
+  }
   try {
     switch (command) {
       case 'up': {
