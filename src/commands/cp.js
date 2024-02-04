@@ -8,10 +8,10 @@ export const cp = (currentPath, pathToFile, pathToNewDirectory) => {
   const writeStream = createWriteStream(copyFilePath);
 
   readStream.on('data', (chunk) => {
-      writeStream.write(chunk);
+    writeStream.write(chunk);
   });
 
   readStream.on('error', () => {
-    throw new Error('FS operation failed');
+    console.error('FS operation failed');
   });
 };

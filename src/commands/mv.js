@@ -25,6 +25,6 @@ export const mv = async (currentPath, pathToFile, pathToNewDirectory) => {
   })
   
   readStream.on('error', () => {
-    throw new Error('FS operation failed');
+    console.error('FS operation failed');
   });
 };
