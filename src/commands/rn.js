@@ -2,8 +2,11 @@ import { rename, readFile } from 'node:fs/promises';
 import path from 'path';
 
 export const rn = async (currentPath, pathToFile, newFileName) => {
-  const filePath = path.join(currentPath, pathToFile);
+  if (!pathToFile || ! newFileName) {
+    throw new Error('Invalid Input');
+  }
 
+  const filePath = path.resolve(currentPath, pathToFile);
   try {
     await readFile(filePath);
     await rename(filePath, newFileName);

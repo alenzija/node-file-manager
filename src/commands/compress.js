@@ -10,8 +10,11 @@ import { promisify } from 'util';
 const pipe = promisify(pipeline);
 
 export const compress = (currentPath, pathToFile, pathToDestination) => {
-  const filePath = path.join(currentPath, pathToFile);
-  const fileOutputPath = path.join(currentPath, pathToDestination);
+  if (!pathToFile || !pathToDestination) {
+    throw new Error('Invalid Input');
+  }
+  const filePath = path.resolve(currentPath, pathToFile);
+  const fileOutputPath = path.resolve(currentPath, pathToDestination);
 
   const gzip = createGzip();
   const source = createReadStream(filePath);

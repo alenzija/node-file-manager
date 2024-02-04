@@ -10,8 +10,11 @@ import path from 'path';
 const pipe = promisify(pipeline);
 
 export const decompress = (currentPath, pathToFile, pathToDestination) => {
-  const filePath = path.join(currentPath, pathToFile);
-  const fileOutputPath = path.join(currentPath, pathToDestination);
+  if (!pathToFile || !pathToDestination) {
+    throw new Error('Invalid Input');
+  }
+  const filePath = path.resolve(currentPath, pathToFile);
+  const fileOutputPath = path.resolve(currentPath, pathToDestination);
   const input = createReadStream(filePath);    
   const output = createWriteStream(fileOutputPath);
 

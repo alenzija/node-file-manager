@@ -1,6 +1,5 @@
 import { readdir } from 'node:fs/promises';
 
-
 export const ls = async (currentPath) => {
   try {
     const result = [];
@@ -13,6 +12,6 @@ export const ls = async (currentPath) => {
     });
     console.table(result);
   } catch {
-      throw new Error('FS operation failed');
+    throw new Error('FS operation failed');
   }
-}
+};

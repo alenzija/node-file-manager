@@ -1,7 +1,6 @@
 import path from 'path';
-import { Transform } from 'stream';
 
-import { printPath, printCommands } from './printUtils.js';
+import { printPath, printCommands } from './utils/printUtils.js';
 import { up } from './commands/up.js';
 import { cd } from './commands/cd.js';
 import { ls } from './commands/ls.js';
@@ -21,8 +20,8 @@ let currentPath = path.resolve();
 
 const argv = process.argv;
 
-
 user = argv.find((item) => /^--username/.test(item)).replace(/--username=/, '');
+
 process.on('exit', () => {
   process.stdout.write(`\nThank you for using File Manager, ${user}, goodbye!
   `);
@@ -35,9 +34,8 @@ process.on('SIGINT', () => {
 process.stdout.write(`Welcome to the File Manager, ${user}!`);
 
 printCommands();
+process.stdout.write(printPath(currentPath));
 process.stdout.write('Enter your command\n');
-
-
 
 process.stdin.on('data', async (data) => {
   const stringData = data.toString().trim();
@@ -100,7 +98,7 @@ process.stdin.on('data', async (data) => {
         break;
       }
       default: { 
-        console.log('INCORRECT COMMAND', stringData)
+        console.log('Incorrect command', stringData)
         break;
       }
     }
@@ -108,5 +106,5 @@ process.stdin.on('data', async (data) => {
     process.stdout.write(`\n${e.message}\n\n`);
   }
   process.stdout.write(printPath(currentPath));
-    
+  process.stdout.write('Enter your command\n');
 });
