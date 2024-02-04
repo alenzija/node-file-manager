@@ -5,6 +5,12 @@ import { printPath, printCommands } from './printUtils.js';
 import { up } from './commands/up.js';
 import { cd } from './commands/cd.js';
 import { ls } from './commands/ls.js';
+import { cat } from './commands/cat.js';
+import { add } from './commands/add.js';
+import { rn } from  './commands/rn.js';
+import { cp } from './commands/cp.js';
+import { mv } from './commands/mv.js';
+import { rm } from './commands/rm.js';
 
 let user = 'Anonymous';
 let currentPath = path.resolve();
@@ -17,19 +23,19 @@ console.log(`Welcome to the File Manager, ${user}!`);
 
 
 
-printCommands();
 
 const reverseTransformStream = new Transform({
   transform (data, encoding, callback) {
-      const reversedData = data.toString();
-      this.push(reversedData);
-      callback();
+    const reversedData = data.toString();
+    this.push(reversedData);
+    callback();
   }
 });
 
-process.stdout.write('Enter your text\n');
+printCommands();
+process.stdout.write('Enter your command\n');
 
-process.stdin.pipe(reverseTransformStream).on('data', data => {
+process.stdin.pipe(reverseTransformStream).on('data', async (data) => {
   const stringData = data.toString().trim();
   const [command, ...args] = stringData.split(' ');
   try {
@@ -43,7 +49,31 @@ process.stdin.pipe(reverseTransformStream).on('data', data => {
         break;
       }
       case 'ls': { 
-        ls(currentPath);
+        await ls(currentPath);
+        break;
+      }
+      case 'cat': { 
+        cat(currentPath, args[0]);
+        break;
+      }
+      case 'add': { 
+        await add(currentPath, args[0]);
+        break;
+      }
+      case 'rn': { 
+        await rn(currentPath, args[0], args[1]);
+        break;
+      }
+      case 'cp': { 
+        cp(currentPath, args[0], args[1]);
+        break;
+      }
+      case 'mv': { 
+        mv(currentPath, args[0], args[1]);
+        break;
+      }
+      case 'rm': { 
+        await rm(currentPath, args[0]);
         break;
       }
       default: { 
@@ -54,6 +84,6 @@ process.stdin.pipe(reverseTransformStream).on('data', data => {
   } catch (e) {
     process.stdout.write(`\n${e.message}\n\n`);
   }
-    
   process.stdout.write(printPath(currentPath));
+    
 });
