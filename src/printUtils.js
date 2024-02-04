@@ -17,5 +17,10 @@ export const printCommands = () => {
   * hash path_to_file
   * compress path_to_file path_to_destination
   * decompress path_to_file path_to_destination
+  * os --EOL
+  * os --cpus
+  * os --homedir
+  * os --username
+  * os --architecture
 `)
 }

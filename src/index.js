@@ -14,6 +14,7 @@ import { rm } from './commands/rm.js';
 import { hash } from './commands/hash.js';
 import { compress } from './commands/compress.js';
 import { decompress } from './commands/decompress.js';
+import { osData } from './commands/os.js';
 
 let user = 'Anonymous';
 let currentPath = path.resolve();
@@ -89,6 +90,10 @@ process.stdin.pipe(reverseTransformStream).on('data', async (data) => {
       }
       case 'decompress': { 
         decompress(currentPath, args[0], args[1]);
+        break;
+      }
+      case 'os': {
+        osData(args[0]);
         break;
       }
       default: { 
