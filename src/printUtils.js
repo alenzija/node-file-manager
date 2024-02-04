@@ -15,5 +15,7 @@ export const printCommands = () => {
   * mv path_to_file path_to_directory
   * rm path_to_file
   * hash path_to_file
+  * compress path_to_file path_to_destination
+  * decompress path_to_file path_to_destination
 `)
 }
